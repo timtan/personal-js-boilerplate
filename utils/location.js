@@ -3,7 +3,7 @@
     var Utils = window.Utils || {};
     window.Utils = Utils;
 
-    var EARTH_RADIUS = 6378137.0; //单位M
+    var EARTH_RADIUS = 6378137.0; //单位 Meter
     var PI = Math.PI;
 
     function getRad(d){
