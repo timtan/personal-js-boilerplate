@@ -19,9 +19,8 @@
         render: function(){},
         execute: function(options){
             var self = this;
-            var deferred = $.Deferred();
-            deferred.resolve(this.fetch(options))
-                .done(function(){self.onFetch(options);})
+            $.when(this.fetch(options))
+                .done(function(){self.onFetch.apply(self, arguments);})
                 .done(function(){self.enter(options);});
         },
         leave: function(){
