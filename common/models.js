@@ -9,7 +9,5 @@
         model: Entity.BaseModel
     });
 
-    Entity.User = Entity.BaseModel.extend({
-    });
 })(window.Backbone, window.Marionette, window.Utils, window._);
 
