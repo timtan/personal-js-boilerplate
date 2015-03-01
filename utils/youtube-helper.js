@@ -26,7 +26,7 @@
         }
         else{
             var check = function(){
-                if(window.YT.Player){ // if you have YT.player, you can use iframe api with js
+                if(window.YT ){ // if you have YT.player, you can use iframe api with js
                     self.youtubeAvailable = true;
                     deferred.resolve();
                 }

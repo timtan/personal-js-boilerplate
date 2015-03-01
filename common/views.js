@@ -1,11 +1,53 @@
-(function(Backbone, Marionette, _, FilteredCollection){
+(function(Backbone, Marionette ){
     'use strict';
     var Views =  window.Views || {};
     window.Views = Views;
 
-    Views.ItemView= Marionette.ItemView.extend({  });
-    Views.CollectionView = Marionette.CollectionView.extend({ });
-    Views.CompositeView = Marionette.CompositeView.extend({ });
-    Views.LayoutView = Marionette.LayoutView.extend({ });
+    Views.ItemView= Marionette.ItemView.extend({
+        constructor: function(options) {
+            options = options || {};
+            if(options.channel){
+                this.channel = options.channel;
+            }
+            Marionette.ItemView.apply(this, arguments);
+    }
+    });
+    Views.CollectionView = Marionette.CollectionView.extend({
+        childViewOptions: function(model, index) {
+            return {
+                channel: this.channel
+            };
+        },
+        constructor: function(options) {
+            options = options || {};
+            if(options.channel){
+                this.channel = options.channel;
+            }
+            Marionette.CollectionView.apply(this, arguments);
+        }
+    });
+    Views.CompositeView = Marionette.CompositeView.extend({
+        childViewOptions: function(model, index) {
+            return {
+                channel: this.channel
+            };
+        },
+        constructor: function(options) {
+            options = options || {};
+            if(options.channel){
+                this.channel = options.channel;
+            }
+            Marionette.CompositeView.apply(this, arguments);
+        }
+    });
+    Views.LayoutView = Marionette.LayoutView.extend({
+        constructor: function(options) {
+            options = options || {};
+            if(options.channel){
+                this.channel = options.channel;
+            }
+            Marionette.LayoutView.apply(this, arguments);
+        }
+    });
 
-})(window.Backbone, window.Marionette, window._, window.FilteredCollection);
+})(window.Backbone, window.Marionette );
