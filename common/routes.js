@@ -17,11 +17,12 @@
         fetch: function(){},
         onFetch: function(){},
         render: function(){},
+        enter: function(){return this;},
         execute: function(options){
             var self = this;
-            $.when(this.fetch(options))
+            return $.when(this.fetch(options))
                 .done(function(){self.onFetch.apply(self, arguments);})
-                .done(function(){self.enter(options);});
+                .done(function(){return self.enter(options);});
         },
         leave: function(){
             this.stopListening();
