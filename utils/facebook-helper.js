@@ -11,7 +11,7 @@
         var self = this;
 
         options = options || {
-            appId      : '1433288343571864',
+            appId      : options.appID || '1433288343571864',
             cookie     : true,
             xfbml      : true,
             version    : 'v2.1' // use version 2.1
