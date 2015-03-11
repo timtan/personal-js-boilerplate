@@ -6,13 +6,8 @@
 
     var $ = Backbone.$;
 
-
-
-    Utils.FacebookHelper = Marionette.Object.extend({
+    var FacebookHelperBase = Marionette.Object.extend({
         constructor: function(options){
-            this.deferred = $.Deferred();
-            var self = this;
-
             this.options = _.extend({
                 appId      : '1433288343571864',
                 cookie     : true,
@@ -20,7 +15,14 @@
                 version    : 'v2.1', // use version 2.1
                 scope: 'publish_stream,email'
             }, options);
-
+            Marionette.Object.apply(this, arguments);
+        }
+    });
+    
+    Utils.FacebookHelper = FacebookHelperBase.extend({
+        constructor: function(options){
+            this.deferred = $.Deferred();
+            var self = this;
             window.fbAsyncInit = function() {
                 window.FB.init(options);
                 self.deferred.resolve();
@@ -35,7 +37,8 @@
                 js.src = "//connect.facebook.net/en_US/all.js";
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
-            Marionette.Object.apply(this, arguments);
+            FacebookHelperBase.apply(this, arguments);
+
         }
     });
 
@@ -79,19 +82,30 @@
         return $fetchData.promise();
     };
 
-    Utils.RedirectedFacebookHelper = Utils.FacebookHelper.extend({
+
+
+
+    Utils.RedirectedFacebookHelper = FacebookHelperBase.extend({
         initialize: function(options){
             this.options.callBackUrl = options.callBackUrl;
             this.options.scope ='publish_stream,email';
         }
     });
 
+    Utils.RedirectedFacebookHelper.prototype.ready = function(){
+        this.deferred.resolve();
+        return this.deferred.promise();
+    };
+
+    Utils.RedirectedFacebookHelper.prototype.getFBLoginUrl= function(){
+        return  "https://www.facebook.com/dialog/oauth?client_id="  +
+            this.options.appId +
+            "&response_type=token&scope=" + this.options.scope +
+            "&redirect_uri=" + this.options.callBackUrl;
+    };
+
     Utils.RedirectedFacebookHelper.prototype.loginAndFetchingData = function(){
-        var template = _.template("https://www.facebook.com/dialog/oauth?client_id=<%=appId%>" +
-                "&redirect_uri=<%=callBackUrl%>" +
-            "&response_type=token&scope=<%=scope%>" );
-        var href = template( this.options);
-        location.href = href;
+        location.href = this.getFBLoginUrl();
     };
 
     Utils.RedirectedFacebookHelper.prototype.backboneRouteString = "access_token=:token&expires_in:time";
