@@ -90,7 +90,8 @@
         var template = _.template("https://www.facebook.com/dialog/oauth?client_id=<%=appId%>" +
                 "&redirect_uri=<%=callBackUrl%>" +
             "&response_type=token&scope=<%=scope%>" );
-        location.href = template( this.options);
+        var href = template( this.options);
+        location.href = href;
     };
 
     Utils.RedirectedFacebookHelper.prototype.backboneRouteString = "access_token=:token&expires_in:time";
