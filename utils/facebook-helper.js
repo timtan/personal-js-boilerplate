@@ -8,6 +8,7 @@
 
     var FacebookHelperBase = Marionette.Object.extend({
         constructor: function(options){
+            this.deferred = $.Deferred();
             this.options = _.extend({
                 appId      : '1433288343571864',
                 cookie     : true,
@@ -21,7 +22,6 @@
     
     Utils.FacebookHelper = FacebookHelperBase.extend({
         constructor: function(options){
-            this.deferred = $.Deferred();
             var self = this;
             window.fbAsyncInit = function() {
                 window.FB.init(options);
