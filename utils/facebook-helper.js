@@ -35,19 +35,28 @@
             Marionette.Object.apply(this, arguments);
         }
     });
-    
+
+    FacebookHelperBase.prototype.getFBLoginUrl= function(){
+        return  "https://www.facebook.com/dialog/oauth?client_id="  +
+            this.options.appId +
+            "&response_type=token&scope=" + this.options.scope +
+            "&redirect_uri=" + this.options.callBackUrl;
+    };
+
+    FacebookHelperBase.prototype.ready = function(callback){
+        if(callback){
+            this.deferred.done(callback);
+        }
+        return this.deferred.promise();
+    };
+
+
     Utils.FacebookHelper = FacebookHelperBase.extend({
         constructor: function(options){
             FacebookHelperBase.apply(this, arguments);
         }
     });
 
-    Utils.FacebookHelper.prototype.ready = function(callback){
-        if(callback){
-            this.deferred.done(callback);
-        }
-        return this.deferred.promise();
-    };
     Utils.FacebookHelper.prototype.loginAndFetchingData = function(callback){
         var data = {};
         var $fetchData = $.Deferred();
@@ -84,7 +93,6 @@
 
 
 
-
     Utils.RedirectedFacebookHelper = FacebookHelperBase.extend({
         initialize: function(options){
             this.options.callBackUrl = options.callBackUrl;
@@ -92,17 +100,6 @@
         }
     });
 
-    Utils.RedirectedFacebookHelper.prototype.ready = function(){
-        this.deferred.resolve();
-        return this.deferred.promise();
-    };
-
-    Utils.RedirectedFacebookHelper.prototype.getFBLoginUrl= function(){
-        return  "https://www.facebook.com/dialog/oauth?client_id="  +
-            this.options.appId +
-            "&response_type=token&scope=" + this.options.scope +
-            "&redirect_uri=" + this.options.callBackUrl;
-    };
 
     Utils.RedirectedFacebookHelper.prototype.loginAndFetchingData = function(){
         location.href = this.getFBLoginUrl();
@@ -115,10 +112,12 @@
         var data = {
             access_token: this.access_token
         };
+        console.log('did set fb token');
         window.FB.api('/me',  function(response) {
             data.email = response.email; //get user email
             data.name = response.name;
             data.user_id = response.id; //get FB UID
+            console.log("fb login");
             console.log(response);
             self.trigger("login", data);
         },{access_token: this.access_token});

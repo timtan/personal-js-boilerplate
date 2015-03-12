@@ -3,9 +3,15 @@
     var Views =  window.Views || {};
     window.Views = Views;
 
+    var extraViewOptions = [
+        "channel", "LayoutChannel", "LayoutState", "state"
+    ];
+
     Views.ItemView= Marionette.ItemView.extend({
         constructor: function(options) {
             options = options || {};
+
+            _.extend(this, _.pick(options, extraViewOptions));
             if(options.channel){
                 this.channel = options.channel;
             }
