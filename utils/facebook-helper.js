@@ -9,20 +9,15 @@
     var FacebookHelperBase = Marionette.Object.extend({
         constructor: function(options){
             this.deferred = $.Deferred();
+            var self = this;
             this.options = _.extend({
                 appId      : '1433288343571864',
                 cookie     : true,
                 xfbml      : true,
                 version    : 'v2.1', // use version 2.1
-                scope: 'publish_stream,email'
+                scope: 'publish_stream,email,user_friends'
             }, options);
-            Marionette.Object.apply(this, arguments);
-        }
-    });
-    
-    Utils.FacebookHelper = FacebookHelperBase.extend({
-        constructor: function(options){
-            var self = this;
+
             window.fbAsyncInit = function() {
                 window.FB.init(options);
                 self.deferred.resolve();
@@ -37,8 +32,13 @@
                 js.src = "//connect.facebook.net/en_US/all.js";
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
+            Marionette.Object.apply(this, arguments);
+        }
+    });
+    
+    Utils.FacebookHelper = FacebookHelperBase.extend({
+        constructor: function(options){
             FacebookHelperBase.apply(this, arguments);
-
         }
     });
 
