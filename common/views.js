@@ -1,22 +1,18 @@
-(function(Backbone, Marionette ){
+(function(Backbone, Marionette,_ ){
     'use strict';
     var Views =  window.Views || {};
     window.Views = Views;
 
     var extraViewOptions = [
-        "channel", "LayoutChannel", "LayoutState", "state"
+        "channel"
     ];
 
     Views.ItemView= Marionette.ItemView.extend({
         constructor: function(options) {
             options = options || {};
-
             _.extend(this, _.pick(options, extraViewOptions));
-            if(options.channel){
-                this.channel = options.channel;
-            }
             Marionette.ItemView.apply(this, arguments);
-    }
+        }
     });
     Views.CollectionView = Marionette.CollectionView.extend({
         childViewOptions: function(model, index) {
@@ -26,9 +22,7 @@
         },
         constructor: function(options) {
             options = options || {};
-            if(options.channel){
-                this.channel = options.channel;
-            }
+            _.extend(this, _.pick(options, extraViewOptions));
             Marionette.CollectionView.apply(this, arguments);
         }
     });
@@ -40,20 +34,16 @@
         },
         constructor: function(options) {
             options = options || {};
-            if(options.channel){
-                this.channel = options.channel;
-            }
+            _.extend(this, _.pick(options, extraViewOptions));
             Marionette.CompositeView.apply(this, arguments);
         }
     });
     Views.LayoutView = Marionette.LayoutView.extend({
         constructor: function(options) {
             options = options || {};
-            if(options.channel){
-                this.channel = options.channel;
-            }
+            _.extend(this, _.pick(options, extraViewOptions));
             Marionette.LayoutView.apply(this, arguments);
         }
     });
 
-})(window.Backbone, window.Marionette );
+})(window.Backbone, window.Marionette, window._ );
