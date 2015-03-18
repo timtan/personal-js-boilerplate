@@ -85,7 +85,7 @@
 
             }
         }, {
-            scope: 'publish_stream,email'
+            scope: 'publish_stream,email,user_friends'
         });
 
         return $fetchData.promise();
@@ -96,7 +96,7 @@
     Utils.RedirectedFacebookHelper = FacebookHelperBase.extend({
         initialize: function(options){
             this.options.callBackUrl = options.callBackUrl;
-            this.options.scope ='publish_stream,email';
+            this.options.scope ='publish_stream,email,user_friends';
         }
     });
 
@@ -112,7 +112,6 @@
         var data = {
             access_token: this.access_token
         };
-        console.log('did set fb token');
         window.FB.api('/me',  function(response) {
             data.email = response.email; //get user email
             data.name = response.name;
