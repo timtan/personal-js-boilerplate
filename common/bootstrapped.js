@@ -1,6 +1,6 @@
 (function(Backbone, Marionette, Views, _){
     'use strict';
-    Views.BootstrapSimpleModal = Views.LayoutView.extend({
+    Views.BootstrapSimpleModal = Views.LayoutView.extend({   // this one is not so good
         template:
             _.template('<div class="modal fade" data-js="modal">' +
                 '<div class="modal-dialog">' +
@@ -30,7 +30,7 @@
     });
 
 
-    Views.BootstrapModalRegion = Marionette.Region.extend({
+    Views.BootstrapModalRegion = Marionette.Region.extend({ // this is relatively very nice
         attachHtml: function(view){
             this.$el.addClass("modal fade");
             this.$el.css("display", "block");
