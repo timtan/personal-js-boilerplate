@@ -28,4 +28,18 @@
             //this.getRegion("content").empty();
         }
     });
+
+
+    Views.BootstrapModalRegion = Marionette.Region.extend({
+        attachHtml: function(view){
+            this.$el.addClass("modal fade");
+            this.$el.css("display", "block");
+            view.$el.addClass("modal-dialog");
+            this.$el.html(view.el);
+            this.$el.modal("show");
+        },
+        onEmpty: function(view, region){
+            this.$el.modal('hide');
+        }
+    });
 })(window.Backbone, window.Marionette, window.Views, window._ );
