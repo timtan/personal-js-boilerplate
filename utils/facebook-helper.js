@@ -106,8 +106,8 @@
     };
 
     Utils.RedirectedFacebookHelper.prototype.backboneRouteString = "access_token=:token&expires_in:time";
-    Utils.RedirectedFacebookHelper.prototype.setToken = function(access_token){
-        var self = this;
+    Utils.RedirectedFacebookHelper.prototype.getUserData = function(access_token){
+        var $deferred = $.Deferred();
         this.access_token = access_token;
         var data = {
             access_token: this.access_token
@@ -117,10 +117,9 @@
             data.email = response.email; //get user email
             data.name = response.name;
             data.user_id = response.id; //get FB UID
-            console.log("fb login");
-            console.log(response);
-            self.trigger("login", data);
+            $deferred.resolve(data);
         },{access_token: this.access_token});
+        return $deferred.promise();
     };
 
 
