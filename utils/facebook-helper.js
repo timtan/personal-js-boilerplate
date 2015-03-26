@@ -11,7 +11,7 @@
             this.deferred = $.Deferred();
             var self = this;
             this.options = _.extend({
-                appId      : '1433288343571864',
+                appId      : '232916113552746',
                 cookie     : true,
                 xfbml      : true,
                 version    : 'v2.1', // use version 2.1
