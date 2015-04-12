@@ -41,10 +41,14 @@
             if(options.container) {
                 this.container = options.container;
             }
-            this.filters = [];
+
             if(options.filters){
                 this.filters = options.filters;
             }
+            else if(!this.filters){
+                this.filters = [];
+            }
+
             Marionette.View.apply(this, arguments);
         },
         fetch: function(){},
