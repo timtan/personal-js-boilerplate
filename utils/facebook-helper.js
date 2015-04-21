@@ -93,6 +93,8 @@
 
 
 
+
+
     Utils.RedirectedFacebookHelper = FacebookHelperBase.extend({
         initialize: function(options){
             this.options.callBackUrl = options.callBackUrl;
@@ -121,6 +123,34 @@
         return $deferred.promise();
     };
 
+
+
+   // TODO: this is not facebook helper, will refactor to other place
+
+    Utils.SingleSignOn  = function(options){
+        this.options = options;
+    };
+
+    Utils.SingleSignOn.prototype.getFBLoginUrl = function(){
+        var authUrl = "https://auth.iezvu.com/sso_login?";
+        return  authUrl  + encodeURI("redirect_url=" + this.options.callBackUrl);
+    };
+
+    Utils.SingleSignOn.prototype.loginAndFetchingData = function(){
+        location.href = this.getFBLoginUrl();
+    };
+
+    Utils.SingleSignOn.prototype.getUserData = function(token){
+        return {
+            access_token: token
+        };
+    };
+
+    Utils.SingleSignOn.prototype.ready = function(token){
+        var deferred = $.Deferred();
+        deferred.resolve();
+        return deferred;
+    };
 
 })(window.Backbone, window.Marionette, window._);
 
